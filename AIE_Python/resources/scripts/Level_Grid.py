@@ -21,6 +21,8 @@ class LevelGrid:
 			self.levelTiles[i] = Tile()
 			self.levelTiles[i].x = self.tileSize['width'] * (i % int(self.levelWidth))
 			self.levelTiles[i].y = self.tileSize['height'] * ( (int(i)/(int(self.levelWidth))))
+			print "X: %s" % self.levelTiles[i].x
+			print "Y: %s" % self.levelTiles[i].y
 	
 	def loadSprites(self):
 		#load all sprites for each tile
@@ -67,6 +69,11 @@ class Tile:
 		self.state = 0
 		self.x = 0
 		self.y = 0
+		# self.reachable = self.bShouldDraw # temporarily making non-drawers also non-reachables
+		# self.parent = None
+		# self.g = 0
+		# self.h = 0
+		# self.f = 0
 	
 	def getImageName(self):
 		return self.imageName
@@ -76,12 +83,16 @@ class Tile:
 	
 	def getSpriteID(self):
 		return self.spriteID
+
+	def getCost(self):
+		return self.cost
 		
 	def setSpriteID(self, a_spriteID):
 		self.spriteID = a_spriteID
 	
 	def setDraw(self):
 		self.bShouldDraw = not self.bShouldDraw
+		#self.reachable = not self.reachable
 	
 	def shouldDraw(self):
 		return self.bShouldDraw

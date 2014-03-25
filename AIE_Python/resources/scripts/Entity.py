@@ -1,17 +1,60 @@
 import AIE
 import game
 
+#Base Entity
+#   Basic base class for game Entities
+
+class BaseEntity:
+
+	def __init__(self, size):
+		self.Position = ( 800, 600 )
+		self.Rotation = 0
+		self.Velocity = (0,0)
+		self.spriteName = "Undefined"
+		self.size = size
+		self.origin = (0.5, 0.5)
+		self.spriteID = -1
+		
+	def update(self, fDeltaTime ):	
+		AIE.MoveSprite( self.spriteID, self.Position[0], self.Position[1] )
+	
+	def draw(self):
+		
+		AIE.DrawSprite( self.spriteID )
+		
+	def getImageName(self):
+		return self.imageName
+		
+	def getState(self):
+		return self.state
+	
+	def getSpriteID(self):
+		return self.spriteID
+		
+	def setSpriteID(self, a_spriteID):
+		self.spriteID = a_spriteID
+	
+	def getPosition(self):
+		return self.Position
+
+	def cleanUp(self):
+		AIE.DestroySprite( self.spriteID )
+		
+	def setPositionTarget(self, target):
+		self.posTarget = target
+
+
+
 #Tank Entity
 #   A simple entity that can be placed on the screen with a right click, you should modify this so that the tank can be told to 
 #   navigate to a point instead of instantly move.
 
-class TankEntity:
+class TankEntity(BaseEntity):
 
 	def __init__(self):
 		self.Position = ( 800, 600 )
-		self.nextPos = self.Position
 		self.Rotation = 0
-		self.Velocity = (1,1)
+		self.Velocity = (0,0)
 		self.spriteName = "./images/PlayerTanks.png"
 		self.size = (57, 72 )
 		self.origin = (0.5, 0.5)
@@ -66,7 +109,7 @@ class TankEntity:
 #    The Turret's position is based on the location of it's owner, if it's owner (in this scenario a Tank) is moveable
 #    The turret will move with it's base/owner
 
-class Turret:
+class Turret(BaseEntity):
 	
 	def __init__(self, owner):
 		self.owner = owner
@@ -87,4 +130,6 @@ class Turret:
 	
 	def	cleanUp(self):
 		AIE.DestroySprite( self.spriteID )
+
+	# make a control scheme
 		
