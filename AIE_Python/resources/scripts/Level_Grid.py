@@ -23,6 +23,7 @@ class LevelGrid:
 			self.levelTiles[i].y = self.tileSize['height'] * ( (int(i)/(int(self.levelWidth))))
 			print "X: %s" % self.levelTiles[i].x
 			print "Y: %s" % self.levelTiles[i].y
+			self.levelTiles[i].index = i # store the master index of tile...may not end up using this
 	
 	def loadSprites(self):
 		#load all sprites for each tile
@@ -84,8 +85,8 @@ class Tile:
 	def getSpriteID(self):
 		return self.spriteID
 
-	def getCost(self):
-		return self.cost
+	def getIndex(self):
+		return self.index
 		
 	def setSpriteID(self, a_spriteID):
 		self.spriteID = a_spriteID

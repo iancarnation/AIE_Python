@@ -17,18 +17,18 @@ class AStar(object):
 		"""
 		return abs(node.x - self.goalNode.x) + abs(node.y - self.goalNode.y)
 
-	def GetCell(self, x, y):
-		""" Returns a node from the node list """
-		return self.nodes[]
+	# def GetCell(self, x, y):
+	# 	""" Returns a node from the node list """
+	# 	return self.nodes[]
 
-	def GetAdjacent(self, node):
+	def GetAdjacent(self, currentNode):
 		""" Returns a list of all nodes adjacent to the currentNode parameter """
 		adjacents = []
 		tileWidth = self.grid.tileSize['width']
 		tileHeight = self.grid.tileSize['height']
 
-		if node.x < self.grid.levelWidth - tileWidth:
-			adjacents.append()
+		if currentNode.x < self.grid.levelWidth - tileWidth:
+			adjacents.append(self.nodes[])
 
 		for node in self.openList:
 			# if the difference between two nodes' x and y coord. is <= tile width and height respectively, they are adjacent
