@@ -1,6 +1,14 @@
 # AI behaviors and movement patterns
 import Level_Grid
 
+
+
+# Defines offsets and movement costs for nodes adjacent to another node
+class AdjacentNode(object):
+	def __init__(self, offset, cost):
+		self.nodes = []
+
+
 # A* Pathfinding
 class AStar(object):
 	def __init__(self, levelGrid):
@@ -40,6 +48,8 @@ class AStar(object):
 	def Run(self, startNode, goalNode):
 		self.goalNode = goalNode
 		self.startNode = startNode
+
+		path
 		# add starting node to the open openList
 		self.openList.append(startNode)
 		# while open list is not empty:
@@ -47,7 +57,7 @@ class AStar(object):
 		# - current node = node from open list with the lowest cost
 			currentNode = FindCheapest()
 		# - if current node = goal node:
-			if currentNode == goalNode:
+			if currentNode.Equals(goalNode):
 		# - - path complete
 				break
 			else: 
@@ -59,7 +69,7 @@ class AStar(object):
 		# - - for each adjacent node:
 				for node in adjacentNodes:
 		# - - - if it isn't on the open list and isn't on the closed list and isn't an obstacle:
-					if openList.count(node) == 0 && closedList.count(node) == 0 && not node.bShouldDraw:
+					if openList.count(node) == 0 && closedList.count(node) == 0 && node.reachable:
 		# - - - - move it to open list and calculate cost
 						openList.append(node)
 

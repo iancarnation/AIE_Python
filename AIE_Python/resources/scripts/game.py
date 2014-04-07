@@ -14,6 +14,9 @@ screenProperties	= { 'width':1280, 'height':720, 'fullscreen':False, 'title':"Py
 MouseButtons 		= { 'button_one':0, 'button_two':1, 'button_three':2 }
 _level 				= None #none is the equivalent of nullptr in C++0x11 (or NULL in regular C++)
 _entity 			= None
+# Set of nodes adjacent to any given node.
+# Cost of moving diagonal defined as 1.4 times cost of horiz. or vert. move
+#**adjacent**
 
 #PyInitialise 
 #    - This function is called to initialise our Python Game and returns the Screen properties for our C++ application
@@ -39,6 +42,17 @@ def PyLoad():
 	
 	return 0
 	
+#DrawGrid
+# 	- Called in the update loop to draw a grid on screen
+def DrawGrid():
+	for i in range(screenProperties['width']):
+		if i%_level.tileSize['width'] == 0:
+			AIE.DrawLine(i, 0, i, screenProperties['height'], 0, 0, 0, 255)
+
+	for j in range(screenProperties['height']):
+		if j%_level.tileSize['height'] == 0:
+			AIE.DrawLine(0, j, screenProperties['width'], j, 0, 0, 0, 255)
+
 #PyUpdate
 #    - This is the update funciton that will get called each frame to update our Python implementations that need to be updated
 #      This function works very much like a standard main loop, except it is called from C++
@@ -51,7 +65,7 @@ def PyUpdate( fDeltaTime ):
 	#Draw all our entities and Level
 	_level.draw()
 	_entity.draw()
-	
+	DrawGrid()
 	return 0
 	
 #PyShutdown

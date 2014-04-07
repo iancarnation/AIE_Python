@@ -2,6 +2,11 @@ import AIE
 import game
 import math
 
+class MapLocation:
+	def __init__(self, x, y):
+		self.x = x
+		self.y = y
+
 #This is just a simple Level Grid that sets up a grid based level that fills the entire screen
 #this level is static in that is is the size of the viewport and no larger should you wish to create a 
 #level that can be larger than the screen bounds then modify away.
@@ -70,11 +75,12 @@ class Tile:
 		self.state = 0
 		self.x = 0
 		self.y = 0
-		# self.reachable = self.bShouldDraw # temporarily making non-drawers also non-reachables
-		# self.parent = None
-		# self.g = 0
-		# self.h = 0
-		# self.f = 0
+
+		self.reachable = self.bShouldDraw # temporarily making non-drawers also non-reachables
+		self.parent = None
+		self.g = 0
+		self.h = 0
+		self.f = 0
 	
 	def getImageName(self):
 		return self.imageName
@@ -97,3 +103,18 @@ class Tile:
 	
 	def shouldDraw(self):
 		return self.bShouldDraw
+
+	def Equals(self, a_tile):
+		if self.x == a_tile.x and self.y == a_tile.y:
+			return True
+		else:
+			return False
+
+	# A* info ----------------------------------------------
+
+	def getCost(self):
+		self.f = self.g + self.h
+		return self.f
+
+
+

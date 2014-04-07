@@ -2,7 +2,7 @@
 #include "AIE.h"
 #include <iostream>
 
-
+// this is a method definitions table
 PyMethodDef AIE_Functions[] = 
 {
 	{"Update",					AIE_Update,						METH_VARARGS,		"Update the AIE Framework."								},
@@ -15,6 +15,7 @@ PyMethodDef AIE_Functions[] =
 	{"GetMouseLocation",		AIE_GetMouseLocation,			METH_VARARGS,		"Where is the Mouse?"									},
 	{"GetMouseButton",			AIE_GetMouseButtonDown,			METH_VARARGS,		"Mouse Button Pressed?"									},
 	{"GetMouseButtonRelease",	AIE_GetMouseButtonReleased,		METH_VARARGS,		"Mouse Button Let Go?"									},
+	{"DrawLine",				AIE_DrawLine,					METH_VARARGS,		"Draws a Line"											},
 	{NULL, NULL, 0, NULL}
 };
 
@@ -211,6 +212,16 @@ PyObject* AIE_GetSpriteScale(PyObject *self, PyObject *args)
 //////////////////////////////////////////////////////////////////////////
 PyObject* AIE_DrawLine(PyObject *self, PyObject *args)
 {
+	int iStartX; int iStartY; int iEndX; int iEndY; unsigned int vColor[4];
+	if (!PyArg_ParseTuple( args, "iiiiiiii", &iStartX, &iStartY,
+											 &iEndX, &iEndY,
+											 &vColor[0], &vColor[1], &vColor[2], &vColor[3]) ) 
+	{
+		ParsePyTupleError( __func__, __LINE__ );
+		return nullptr;
+	}
+
+	DrawLine(iStartX, iStartY, iEndX, iEndY, SColour(vColor[0], vColor[1], vColor[2], vColor[3]));
 	Py_RETURN_NONE;
 }
 //////////////////////////////////////////////////////////////////////////

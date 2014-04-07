@@ -1,0 +1,359 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"Tak",
+				"TankEntity"
+			],
+			[
+				"scree",
+				"screenProperties"
+			],
+			[
+				"curr",
+				"currentLowest"
+			],
+			[
+				"cu",
+				"currentLowest"
+			],
+			[
+				"Base",
+				"BaseEntity"
+			],
+			[
+				"N",
+				"N"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "AI.py",
+			"settings":
+			{
+				"buffer_size": 2770,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Entity.py",
+			"settings":
+			{
+				"buffer_size": 3619,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "game.py",
+			"settings":
+			{
+				"buffer_size": 3707,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Level_Grid.py",
+			"settings":
+			{
+				"buffer_size": 3846,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "Packages/Python/Python.sublime-build",
+	"command_palette":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Sublime Text Build 3059/Data/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/Student/Desktop/test.py",
+		"/C/Sublime Text Build 3059/Data/Packages/User/Default (Windows).sublime-keymap",
+		"/S/Justin Sucks/Its a secret to everybody/OGL2DE-Font/resources/NESish.xml",
+		"/C/Users/Student/Documents/GitHub/ianEngine_1493/ianEngine/ianEngine/resources/FontSheet.xml",
+		"/C/Users/Student/Documents/GitHub/ianEngine_1493/ianEngine/ianEngine/resources/sheet.xml",
+		"/S/Justin Sucks/Its a secret to everybody/OGL2DE-Animation/resources/MegamanXSheet.xml",
+		"/S/Justin Sucks/Its a secret to everybody/OGL2DE-Animation/resources/MegamanXAnimations.xml",
+		"/C/Users/Student/Documents/GitHub/ianEngine_1493/ianEngine/ianEngine/resources/animationData.xml",
+		"/C/Users/Student/Documents/GitHub/ianEngine_1493/ianEngine/ianEngine/resources/sheetold.xml",
+		"/C/Users/Student/Documents/GitHub/ianEngine_1493/ianEngine/resources/images/hommBoat/sheet.xml",
+		"/C/Users/Student/Documents/GitHub/ianEngine_1493/ianEngine/resources/images/hommBoat/sheet22x.xml",
+		"/C/Users/Student/Documents/GitHub/ianEngine_1493/ianEngine/resources/images/hommBoat/sheet2.xml",
+		"/C/Users/justinl/Documents/GitHub/OGL2DE/resources/MegamanXAnimations.xml",
+		"/B/GitHub/OGL2DE/resources/MegamanXSheet.xml",
+		"/B/GitHub/OGL2DE/resources/MegamanXAnimations.xml"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"i",
+			"255",
+			"pathMap",
+			"AdjacentNodes",
+			"cell",
+			"slice",
+			".png",
+			"E",
+			"e",
+			"E",
+			"e",
+			"E"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "AI.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 2770,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								210,
+								210
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "Entity.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3619,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2209,
+								2209
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 765.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "game.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3707,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1147,
+								1152
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "Level_Grid.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3846,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2226,
+								2226
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 270.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 130.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"project": "ScriptingProject.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 188.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
