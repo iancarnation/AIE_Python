@@ -1,5 +1,6 @@
 import AIE
 import game
+import AI
 
 #Base Entity
 #   Basic base class for game Entities
@@ -65,14 +66,21 @@ class TankEntity(BaseEntity):
 		self.turret = Turret(self)
 		self.posTarget = self.Position
 		
-	def update(self, fDeltaTime ):
+	def update(self, fDeltaTime, levelGrid ):
+		self.Pathfinder = AI.AStar(levelGrid)
 		mouseX, mouseY = AIE.GetMouseLocation()
 		if( AIE.GetMouseButton(1)  ):
 			self.setPositionTarget((mouseX, mouseY))
 		
 		if self.posTarget != self.Position:
-			self.Velocity = (self.posTarget[0] - self.Position[0], self.posTarget[1] - self.Position[1])
-			self.Position = (self.Position[0] + self.Velocity[0] * fDeltaTime, self.Position[1] + self.Velocity[1] * fDeltaTime)
+			# self.Velocity = (self.posTarget[0] - self.Position[0], self.posTarget[1] - self.Position[1])
+			# self.Position = (self.Position[0] + self.Velocity[0] * fDeltaTime, self.Position[1] + self.Velocity[1] * fDeltaTime)
+			startNode = levelGrid.resolveGridSquare(self.Position[0], self.Position[1])
+			targetNode = levelGrid.resolveGridSquare(mouseX, mouseY)
+
+			print "Start Node: %s, Goal Node: %s" % (startNode, targetNode)
+			self.Pathfinder.Run(int(startNode), int(targetNode))
+
 		
 		AIE.MoveSprite( self.spriteID, self.Position[0], self.Position[1] )
 		self.turret.update(fDeltaTime)

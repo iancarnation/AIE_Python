@@ -16,6 +16,7 @@ PyMethodDef AIE_Functions[] =
 	{"GetMouseButton",			AIE_GetMouseButtonDown,			METH_VARARGS,		"Mouse Button Pressed?"									},
 	{"GetMouseButtonRelease",	AIE_GetMouseButtonReleased,		METH_VARARGS,		"Mouse Button Let Go?"									},
 	{"DrawLine",				AIE_DrawLine,					METH_VARARGS,		"Draws a Line"											},
+	{"DrawString",				AIE_DrawString,					METH_VARARGS,		"Draws a String"											},
 	{NULL, NULL, 0, NULL}
 };
 
@@ -222,13 +223,25 @@ PyObject* AIE_DrawLine(PyObject *self, PyObject *args)
 	}
 
 	DrawLine(iStartX, iStartY, iEndX, iEndY, SColour(vColor[0], vColor[1], vColor[2], vColor[3]));
+	
 	Py_RETURN_NONE;
 }
+
 //////////////////////////////////////////////////////////////////////////
 // Draws a String to the screen
 //////////////////////////////////////////////////////////////////////////
 PyObject* AIE_DrawString(PyObject *self, PyObject *args)
 {
+	const char* pText; int iXPos; int iYPos; unsigned int vColor[4];
+	if (!PyArg_ParseTuple( args, "siiiiii", &pText, &iXPos, &iYPos,
+											&vColor[0], &vColor[1], &vColor[2], &vColor[3]) ) 
+	{
+		ParsePyTupleError( __func__, __LINE__ );
+		return nullptr;
+	}
+
+	DrawString(pText, iXPos, iYPos, SColour(vColor[0], vColor[1], vColor[2], vColor[3]));
+
 	Py_RETURN_NONE;
 }
 

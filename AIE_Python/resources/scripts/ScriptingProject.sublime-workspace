@@ -4,6 +4,10 @@
 		"selected_items":
 		[
 			[
+				"closed",
+				"closedList"
+			],
+			[
 				"Tak",
 				"TankEntity"
 			],
@@ -35,7 +39,7 @@
 			"file": "AI.py",
 			"settings":
 			{
-				"buffer_size": 2770,
+				"buffer_size": 4826,
 				"line_ending": "Windows"
 			}
 		},
@@ -43,7 +47,7 @@
 			"file": "Entity.py",
 			"settings":
 			{
-				"buffer_size": 3619,
+				"buffer_size": 3948,
 				"line_ending": "Windows"
 			}
 		},
@@ -51,7 +55,7 @@
 			"file": "game.py",
 			"settings":
 			{
-				"buffer_size": 3707,
+				"buffer_size": 3906,
 				"line_ending": "Windows"
 			}
 		},
@@ -59,7 +63,7 @@
 			"file": "Level_Grid.py",
 			"settings":
 			{
-				"buffer_size": 3846,
+				"buffer_size": 3793,
 				"line_ending": "Windows"
 			}
 		}
@@ -91,6 +95,9 @@
 	},
 	"file_history":
 	[
+		"/C/Users/Student/Documents/Ian Rich Docs/Reference/example_code/pathfinder_visualize.py",
+		"/C/Users/Student/Documents/Ian Rich Docs/Reference/pathfinder.py",
+		"/C/Users/Student/Documents/Ian Rich Docs/Reference/priorityqueueset.py",
 		"/C/Sublime Text Build 3059/Data/Packages/Default/Preferences.sublime-settings",
 		"/C/Users/Student/Desktop/test.py",
 		"/C/Sublime Text Build 3059/Data/Packages/User/Default (Windows).sublime-keymap",
@@ -124,6 +131,13 @@
 		"case_sensitive": true,
 		"find_history":
 		[
+			"nodes",
+			"closedList",
+			"nodes",
+			"openList",
+			"resolveGridSquare",
+			"adjacent",
+			"index",
 			"i",
 			"255",
 			"pathMap",
@@ -162,15 +176,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 2770,
+						"buffer_size": 4826,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								210,
-								210
+								3265,
+								3265
 							]
 						],
 						"settings":
@@ -179,7 +193,7 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 1170.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 0,
@@ -191,15 +205,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3619,
+						"buffer_size": 3948,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2209,
-								2209
+								2270,
+								2207
 							]
 						],
 						"settings":
@@ -208,10 +222,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 765.0,
+						"translation.y": 1125.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 3,
+					"stack_index": 1,
 					"type": "text"
 				},
 				{
@@ -220,15 +234,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3707,
+						"buffer_size": 3906,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1147,
-								1152
+								3335,
+								3335
 							]
 						],
 						"settings":
@@ -237,10 +251,10 @@
 							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 0.0,
+						"translation.y": 675.0,
 						"zoom_level": 1.0
 					},
-					"stack_index": 1,
+					"stack_index": 3,
 					"type": "text"
 				},
 				{
@@ -249,15 +263,15 @@
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 3846,
+						"buffer_size": 3793,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								2226,
-								2226
+								2092,
+								2092
 							]
 						],
 						"settings":
@@ -265,8 +279,8 @@
 							"syntax": "Packages/Python/Python.tmLanguage",
 							"translate_tabs_to_spaces": false
 						},
-						"translation.x": 0.0,
-						"translation.y": 270.0,
+						"translation.x": -0.0,
+						"translation.y": 315.0,
 						"zoom_level": 1.0
 					},
 					"stack_index": 2,

@@ -53,6 +53,10 @@ def DrawGrid():
 		if j%_level.tileSize['height'] == 0:
 			AIE.DrawLine(0, j, screenProperties['width'], j, 0, 0, 0, 255)
 
+def DrawIndices():
+	for i in _level.levelTiles:
+		AIE.DrawString(str(i.getIndex()), i.x + (_level.tileSize['width'] / 4), i.y + (_level.tileSize['height'] / 4), 0, 0, 0, 100)
+
 #PyUpdate
 #    - This is the update funciton that will get called each frame to update our Python implementations that need to be updated
 #      This function works very much like a standard main loop, except it is called from C++
@@ -61,11 +65,12 @@ def PyUpdate( fDeltaTime ):
 	global _entity
 	#Update the Entities and the Level
 	_level.update( fDeltaTime )
-	_entity.update(fDeltaTime)
+	_entity.update(fDeltaTime, _level)
 	#Draw all our entities and Level
 	_level.draw()
 	_entity.draw()
 	DrawGrid()
+	DrawIndices()
 	return 0
 	
 #PyShutdown

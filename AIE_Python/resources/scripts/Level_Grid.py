@@ -2,11 +2,6 @@ import AIE
 import game
 import math
 
-class MapLocation:
-	def __init__(self, x, y):
-		self.x = x
-		self.y = y
-
 #This is just a simple Level Grid that sets up a grid based level that fills the entire screen
 #this level is static in that is is the size of the viewport and no larger should you wish to create a 
 #level that can be larger than the screen bounds then modify away.
@@ -54,6 +49,7 @@ class LevelGrid:
 		for i in range( int(self.levelSize) ):
 			if( self.levelTiles[i].shouldDraw() ):
 				AIE.DrawSprite( self.levelTiles[i].getSpriteID() )
+			# add highlight?
 	
 	def resolveGridSquare(self, xPos, yPos):
 		xGridPos = math.floor(xPos/self.tileSize['width'])
