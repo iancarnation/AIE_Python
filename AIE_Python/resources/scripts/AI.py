@@ -10,6 +10,7 @@ class AdjacentNode(object):
 # A* Pathfinding
 class AStar(object):
 	def __init__(self, levelGrid):
+		self.level = levelGrid
 		self.nodes = levelGrid.levelTiles
 		self.openList = []
 		self.closedList = []
@@ -25,9 +26,16 @@ class AStar(object):
 							  AdjacentNode(  levelGrid.levelWidth - 1 , 14),
 							  AdjacentNode(  levelGrid.levelWidth     , 10),
 							  AdjacentNode(  levelGrid.levelWidth + 1 , 14)]
+
+		self.path = []
 		
 	# def __repr__(self):
 	# 	return "Open: %s \n Closed: %s
+
+	def Clear(self):
+		self.openList = []
+		self.closedList = []
+		self.path = []
 
 	def GetHeuristic(self, node):
 		"""Compute the heuristic value H for a node: distance between this node and the ending node
@@ -38,22 +46,6 @@ class AStar(object):
 	# def GetCell(self, x, y):
 	# 	""" Returns a node from the node list """
 	# 	return self.nodes[]
-
-	# def GetAdjacent(self, currentNode):
-	# 	""" Returns a list of all nodes adjacent to the currentNode parameter """
-	# 	adjacents = []
-	# 	tileWidth = self.grid.tileSize['width']
-	# 	tileHeight = self.grid.tileSize['height']
-
-	# 	if currentNode.x < self.grid.levelWidth - tileWidth:
-	# 		adjacents.append(self.nodes[])
-
-	# 	for node in self.openList:
-	# 		# if the difference between two nodes' x and y coord. is <= tile width and height respectively, they are adjacent
-	# 		if abs(currentNode.x - node.x) <= tileWidth && abs(currentNode.y - node.y) <= tileHeight:
-	# 			adjacents.append(node)
-
-	# 	return adjacents
 
 	def UpdateNode(self, adjIndex, adj, current):
 		self.nodes[adjIndex].g = self.nodes[current].g + adj.cost
@@ -66,29 +58,29 @@ class AStar(object):
 		self.goalNode = goalNode
 		self.startNode = startNode
 		print "Start Node: %s, Goal Node: %s" % (startNode, goalNode)
-		path = []
 		# add starting node to the open openList
 		self.openList.append(startNode)
 		# while open list is not empty:
 		while len(self.openList) > 0:
 		# - current node = node from open list with the lowest cost
 			currentNode = self.FindCheapest()
-			print "currentNode = %s" %(currentNode)
+			#print "currentNode = %s" %(currentNode)
 			if currentNode == goalNode:
 		# - - path complete
-				print "Path Complete!"
-				break
+				print "Path Complete!---------------------------------------------------------------------------------"
+				self.MakePath(startNode, goalNode)
+				return self.path
 			else: 
 		# - - move current node to the closed list
 				self.closedList.append(currentNode)
 				self.openList.remove(currentNode)
-				print "List Update: closed: %s, open: %s" % (self.closedList, self.openList)
+				#print "List Update: closed: %s, open: %s" % (self.closedList, self.openList)
 		# - - search each adjacent node
 				for adjNode in self.AdjacentNodes:
-					print "currentNode: %s, adjNode offset: %s" %(currentNode, adjNode.offset)
+					#print "currentNode: %s, adjNode offset: %s" %(currentNode, adjNode.offset)
 					adjIndex = self.nodes[currentNode + adjNode.offset].getIndex()
 		# - - - if it isn't on the closed list and isn't an obstacle:
-					print "adjIndex = %s" %(adjIndex)
+					#print "adjIndex = %s" %(adjIndex)
 					if self.closedList.count(adjIndex) == 0 and self.nodes[adjIndex].reachable:
 		# - - - - if it is in the open list, see if current path is better than the one previously found for this adj node
 						if self.openList.count(adjIndex) > 0:
@@ -100,14 +92,12 @@ class AStar(object):
 							self.openList.append(adjIndex)
 							print "Node %s added to self.openList: %s" % (adjIndex, self.openList)
 
-
 	def FindCheapest(self):
 		""" Finds the node in the open list with the lowest movement cost """
 		# set currentLowest to first item in list
+		print "FindCheapest():"
 		print "openList: %s" %(self.openList)
 		currentLowest = self.openList[0]
-		print "in FindCheapest(): is currentLowest an int?"
-		print str(type(currentLowest) is int)
 		# for each node in the open list:
 		for node in self.openList:
 		# - if self.nodes cost is lower than currentLowest:
@@ -117,3 +107,10 @@ class AStar(object):
 		# return currentLowest
 		print "currentLowest: %s" % (currentLowest)
 		return currentLowest
+
+	def MakePath(self, startNode, goalNode):
+		node = goalNode
+		while self.nodes[node].parent is not startNode:
+			node = self.nodes[node].parent
+			self.path.append(node)
+			print "path: node: %s" % (self.level.resolveGridSquare(self.nodes[node].x, self.nodes[node].y))

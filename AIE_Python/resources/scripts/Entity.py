@@ -65,23 +65,36 @@ class TankEntity(BaseEntity):
 		
 		self.turret = Turret(self)
 		self.posTarget = self.Position
+		self.endGoal = self.Position
+		self.hasPathfinder = False
+		self.pathFound = False
+		self.pathFinished = False
+		self.pathCount = -1
 		
 	def update(self, fDeltaTime, levelGrid ):
-		self.Pathfinder = AI.AStar(levelGrid)
+		if not self.hasPathfinder:
+			self.Pathfinder = AI.AStar(levelGrid)
+			self.hasPathfinder = True
 		mouseX, mouseY = AIE.GetMouseLocation()
 		if( AIE.GetMouseButton(1)  ):
-			self.setPositionTarget((mouseX, mouseY))
+			self.endGoal = mouseX, mouseY
 		
-		if self.posTarget != self.Position:
-			# self.Velocity = (self.posTarget[0] - self.Position[0], self.posTarget[1] - self.Position[1])
-			# self.Position = (self.Position[0] + self.Velocity[0] * fDeltaTime, self.Position[1] + self.Velocity[1] * fDeltaTime)
-			startNode = levelGrid.resolveGridSquare(self.Position[0], self.Position[1])
-			targetNode = levelGrid.resolveGridSquare(mouseX, mouseY)
+		if self.Position != self.endGoal:
+			if not self.pathFound:
+				startNode = levelGrid.resolveGridSquare(self.Position[0], self.Position[1])
+				targetNode = levelGrid.resolveGridSquare(self.endGoal[0], self.endGoal[1])
+				print "Mouse X: %d, Mouse Y: %d" % (mouseX, mouseY)
 
-			print "Start Node: %s, Goal Node: %s" % (startNode, targetNode)
-			self.Pathfinder.Run(int(startNode), int(targetNode))
+				print "Start Node: %s, Goal Node: %s" % (startNode, targetNode)
+				self.Pathfinder.Run(int(startNode), int(targetNode))
+				self.pathFound = True
+			if not self.pathFinished and self.Position == self.posTarget:
+				self.posTarget = self.NextWaypoint(self.Pathfinder.path)
+			self.Velocity = (self.posTarget[0] - self.Position[0], self.posTarget[1] - self.Position[1])
+		 	self.Position = (self.Position[0] + self.Velocity[0] * fDeltaTime, self.Position[1] + self.Velocity[1] * fDeltaTime)
+		else:
+			self.Pathfinder.Clear()
 
-		
 		AIE.MoveSprite( self.spriteID, self.Position[0], self.Position[1] )
 		self.turret.update(fDeltaTime)
 	
@@ -111,6 +124,19 @@ class TankEntity(BaseEntity):
 		
 	def setPositionTarget(self, target):
 		self.posTarget = target
+
+	def NextWaypoint(self, path):
+		print "PathCount: %s / %s" % (self.pathCount, len(self.Pathfinder.path))
+		if self.pathCount is not len(self.Pathfinder.path) - 1:
+			self.pathCount += 1
+			print 
+			return game._level.resolveNodeCenter(self.Pathfinder.path[self.pathCount])
+		else:
+			self.pathFinished = True
+			print "Path Travelled"
+			self.pathCount = -1
+			return game._level.resolveNodeCenter(self.Pathfinder.path[self.pathCount])
+		
 		
 #Turret
 #    This is an Entity Object that has an owner, it is up to you to implement inheritance (BaseEntity->Turret) 

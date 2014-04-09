@@ -55,6 +55,11 @@ class LevelGrid:
 		xGridPos = math.floor(xPos/self.tileSize['width'])
 		yGridPos = math.floor(yPos/self.tileSize['height'])
 		return (yGridPos * self.levelWidth) + xGridPos
+
+	def resolveNodeCenter(self, node):
+		X = self.levelTiles[node].x + self.tileSize['width'] / 2
+		Y = self.levelTiles[node].y + self.tileSize['height'] / 2
+		return X, Y
 	
 	def cleanUp(self):
 		for i in range( int(self.levelSize) ):

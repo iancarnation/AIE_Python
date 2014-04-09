@@ -57,6 +57,11 @@ def DrawIndices():
 	for i in _level.levelTiles:
 		AIE.DrawString(str(i.getIndex()), i.x + (_level.tileSize['width'] / 4), i.y + (_level.tileSize['height'] / 4), 0, 0, 0, 100)
 
+def DrawMouseCoord():
+	mouseX, mouseY = AIE.GetMouseLocation()
+	AIE.DrawString(str(mouseX), 20, 20, 0, 0, 0, 255)
+	AIE.DrawString(str(mouseY), 100, 20, 0, 0, 0, 255)
+
 #PyUpdate
 #    - This is the update funciton that will get called each frame to update our Python implementations that need to be updated
 #      This function works very much like a standard main loop, except it is called from C++
@@ -71,6 +76,7 @@ def PyUpdate( fDeltaTime ):
 	_entity.draw()
 	DrawGrid()
 	DrawIndices()
+	DrawMouseCoord()
 	return 0
 	
 #PyShutdown
