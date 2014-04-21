@@ -21,8 +21,8 @@ class LevelGrid:
 			self.levelTiles[i] = Tile()
 			self.levelTiles[i].x = self.tileSize['width'] * (i % int(self.levelWidth))
 			self.levelTiles[i].y = self.tileSize['height'] * ( (int(i)/(int(self.levelWidth))))
-			print "X: %s" % self.levelTiles[i].x
-			print "Y: %s" % self.levelTiles[i].y
+			#print "X: %s" % self.levelTiles[i].x
+			#print "Y: %s" % self.levelTiles[i].y
 			self.levelTiles[i].index = i # store the master index of tile...may not end up using this
 	
 	def loadSprites(self):
@@ -77,7 +77,7 @@ class Tile:
 		self.x = 0
 		self.y = 0
 
-		self.reachable = self.bShouldDraw # temporarily making non-drawers also non-reachables
+		self.bReachable = True
 		self.parent = None
 		self.g = 0
 		self.h = 0
@@ -100,10 +100,13 @@ class Tile:
 	
 	def setDraw(self):
 		self.bShouldDraw = not self.bShouldDraw
-		#self.reachable = not self.reachable
+		self.bReachable = not self.bReachable
 	
 	def shouldDraw(self):
 		return self.bShouldDraw
+
+	def isReachable(self):
+		return self.bReachable
 
 	def Equals(self, a_tile):
 		if self.x == a_tile.x and self.y == a_tile.y:

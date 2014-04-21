@@ -20,7 +20,6 @@ class BaseEntity:
 		AIE.MoveSprite( self.spriteID, self.Position[0], self.Position[1] )
 	
 	def draw(self):
-		
 		AIE.DrawSprite( self.spriteID )
 		
 	def getImageName(self):
@@ -43,6 +42,13 @@ class BaseEntity:
 		
 	def setPositionTarget(self, target):
 		self.posTarget = target
+
+	def isClose(self, target):
+		return abs(self.Position[0] - target[0]) < 40 and abs(self.Position[1] - target[1]) < 40
+
+	def Equals(self, other):
+		#print "Comparing position " + str(self.Position) + " and endGoal " + str(other)
+		return abs(self.Position[0] - other[0]) <= 0.05 and abs(self.Position[1] - other[1]) <= 0.05
 
 
 
@@ -78,28 +84,36 @@ class TankEntity(BaseEntity):
 		mouseX, mouseY = AIE.GetMouseLocation()
 		if( AIE.GetMouseButton(1)  ):
 			self.endGoal = mouseX, mouseY
-		
-		if self.Position != self.endGoal:
+			print "Reset Pathing"
+			self.ResetPathing()
+			print "endGoal set at: (%s,%s)" % (mouseX, mouseY)
+		if not self.Equals(self.endGoal):
+			#print "checked position against end goal."
+			#print "Path Found: " + str(self.pathFound)
 			if not self.pathFound:
+				# self.Pathfinder = AI.AStar(levelGrid)
+				# self.hasPathfinder = True
 				startNode = levelGrid.resolveGridSquare(self.Position[0], self.Position[1])
 				targetNode = levelGrid.resolveGridSquare(self.endGoal[0], self.endGoal[1])
-				print "Mouse X: %d, Mouse Y: %d" % (mouseX, mouseY)
+				#print "Mouse X: %d, Mouse Y: %d" % (mouseX, mouseY)
 
 				print "Start Node: %s, Goal Node: %s" % (startNode, targetNode)
-				self.Pathfinder.Run(int(startNode), int(targetNode))
+				self.path = self.Pathfinder.Run(int(startNode), int(targetNode))
 				self.pathFound = True
-			if not self.pathFinished and self.Position == self.posTarget:
+				print "Path: " + str(self.path)
+			if not self.pathFinished and self.isClose(self.posTarget):
 				self.posTarget = self.NextWaypoint(self.Pathfinder.path)
+
 			self.Velocity = (self.posTarget[0] - self.Position[0], self.posTarget[1] - self.Position[1])
 		 	self.Position = (self.Position[0] + self.Velocity[0] * fDeltaTime, self.Position[1] + self.Velocity[1] * fDeltaTime)
-		else:
-			self.Pathfinder.Clear()
+		# elif self.pathFound and self.Equals(self.endGoal):
+		# 	self.ResetPathing()
+			
 
 		AIE.MoveSprite( self.spriteID, self.Position[0], self.Position[1] )
 		self.turret.update(fDeltaTime)
 	
 	def draw(self):
-		
 		AIE.DrawSprite( self.spriteID )
 		self.turret.draw()
 		
@@ -126,16 +140,24 @@ class TankEntity(BaseEntity):
 		self.posTarget = target
 
 	def NextWaypoint(self, path):
-		print "PathCount: %s / %s" % (self.pathCount, len(self.Pathfinder.path))
-		if self.pathCount is not len(self.Pathfinder.path) - 1:
+		#print "PathCount: %s / %s" % (self.pathCount, len(path))
+		if self.pathCount != len(path) - 1:
 			self.pathCount += 1
-			print 
-			return game._level.resolveNodeCenter(self.Pathfinder.path[self.pathCount])
+			print "Next Waypoint Center Coordinates: " + str(game._level.resolveNodeCenter(path[self.pathCount]))
+			return game._level.resolveNodeCenter(path[self.pathCount])
 		else:
-			self.pathFinished = True
 			print "Path Travelled"
+			self.pathFinished = True
 			self.pathCount = -1
-			return game._level.resolveNodeCenter(self.Pathfinder.path[self.pathCount])
+			#return game._level.resolveNodeCenter(path[self.pathCount])
+			return self.endGoal
+
+	def ResetPathing(self):
+		self.Pathfinder.Clear()
+		self.pathFound = False
+		self.pathFinished = False
+		self.pathCount = -1
+
 		
 		
 #Turret

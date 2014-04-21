@@ -54,7 +54,15 @@ class AStar(object):
 		self.nodes[adjIndex].parent = current
 		self.nodes[adjIndex].f = self.nodes[adjIndex].g + self.nodes[adjIndex].h
 
+	#def RefreshTileReachability(self):
+
+	def PrintTileReachable(self):
+		for tile in range(len(self.nodes)):
+			if self.nodes[tile].isReachable():
+				print "Tile %s is reachable." % (tile)
+
 	def Run(self, startNode, goalNode):
+		print "Starting Pathfinder.Run()"
 		self.goalNode = goalNode
 		self.startNode = startNode
 		print "Start Node: %s, Goal Node: %s" % (startNode, goalNode)
@@ -64,11 +72,11 @@ class AStar(object):
 		while len(self.openList) > 0:
 		# - current node = node from open list with the lowest cost
 			currentNode = self.FindCheapest()
-			#print "currentNode = %s" %(currentNode)
+			print "currentNode = %s" %(currentNode)
 			if currentNode == goalNode:
 		# - - path complete
 				print "Path Complete!---------------------------------------------------------------------------------"
-				self.MakePath(startNode, goalNode)
+				self.MakePath()
 				return self.path
 			else: 
 		# - - move current node to the closed list
@@ -78,10 +86,14 @@ class AStar(object):
 		# - - search each adjacent node
 				for adjNode in self.AdjacentNodes:
 					#print "currentNode: %s, adjNode offset: %s" %(currentNode, adjNode.offset)
+
 					adjIndex = self.nodes[currentNode + adjNode.offset].getIndex()
 		# - - - if it isn't on the closed list and isn't an obstacle:
 					#print "adjIndex = %s" %(adjIndex)
-					if self.closedList.count(adjIndex) == 0 and self.nodes[adjIndex].reachable:
+					#self.PrintTileReachable()
+					#print "Checking node %s ....." %(adjIndex)
+					if self.closedList.count(adjIndex) == 0 and self.nodes[adjIndex].isReachable():
+						#print "Adjacent Node %s is reachable: %s" % (adjIndex, self.nodes[adjIndex].isReachable())
 		# - - - - if it is in the open list, see if current path is better than the one previously found for this adj node
 						if self.openList.count(adjIndex) > 0:
 							if self.nodes[adjIndex].g > self.nodes[currentNode].g + adjNode.cost:
@@ -90,13 +102,13 @@ class AStar(object):
 						else:
 							self.UpdateNode(adjIndex, adjNode, currentNode)
 							self.openList.append(adjIndex)
-							print "Node %s added to self.openList: %s" % (adjIndex, self.openList)
+							#print "Node %s added to self.openList: %s" % (adjIndex, self.openList)
 
 	def FindCheapest(self):
 		""" Finds the node in the open list with the lowest movement cost """
 		# set currentLowest to first item in list
-		print "FindCheapest():"
-		print "openList: %s" %(self.openList)
+		#print "FindCheapest():"
+		#print "openList: %s" %(self.openList)
 		currentLowest = self.openList[0]
 		# for each node in the open list:
 		for node in self.openList:
@@ -108,9 +120,10 @@ class AStar(object):
 		print "currentLowest: %s" % (currentLowest)
 		return currentLowest
 
-	def MakePath(self, startNode, goalNode):
-		node = goalNode
-		while self.nodes[node].parent is not startNode:
+	def MakePath(self):
+		node = self.goalNode
+		self.path.append(node)
+		while self.nodes[node].parent != self.startNode:
 			node = self.nodes[node].parent
-			self.path.append(node)
+			self.path.insert(0,node)
 			print "path: node: %s" % (self.level.resolveGridSquare(self.nodes[node].x, self.nodes[node].y))
