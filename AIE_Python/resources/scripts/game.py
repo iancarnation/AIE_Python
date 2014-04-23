@@ -7,16 +7,10 @@
 import AIE
 import Level_Grid
 import Entity
+from Globals import *
 
 #Some global variables that are going to be used in this classless basefile, please note there are OO ways to pass this
 #information around, which would be overall more desirable
-screenProperties	= { 'width':1280, 'height':720, 'fullscreen':False, 'title':"Python Game Example"  }
-MouseButtons 		= { 'button_one':0, 'button_two':1, 'button_three':2 }
-_level 				= None #none is the equivalent of nullptr in C++0x11 (or NULL in regular C++)
-_entity 			= None
-# Set of nodes adjacent to any given node.
-# Cost of moving diagonal defined as 1.4 times cost of horiz. or vert. move
-#**adjacent**
 
 #PyInitialise 
 #    - This function is called to initialise our Python Game and returns the Screen properties for our C++ application
@@ -52,6 +46,8 @@ def DrawGrid():
 	for j in range(screenProperties['height']):
 		if j%_level.tileSize['height'] == 0:
 			AIE.DrawLine(0, j, screenProperties['width'], j, 0, 0, 0, 255)
+
+	return 0
 
 def DrawIndices():
 	for i in _level.levelTiles:

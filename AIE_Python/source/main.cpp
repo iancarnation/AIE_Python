@@ -52,10 +52,11 @@ int main(int argc, char *argv[])
 			AIE::Load(pModule);
 			do 
 			{
-
+				
 				ClearScreen();
 				float fDeltaTime = GetDeltaTime();
 				AIE::UpdatePython( pModule, fDeltaTime );
+				//pModule = PyImport_ReloadModule(pModule);
 
 			}while( !FrameworkUpdate() );
 
@@ -136,11 +137,13 @@ namespace AIE
 			PyObject* pArgs = PyTuple_New(1);
 			PyTuple_SetItem( pArgs, 0, pDeltaTime );
 			PyObject* pReturnValue = CallPythonFunction( pUpdateFunc, pArgs );
+			
 			if( pReturnValue )
 			{
 				//std::cout << "Updating Python Game Loop" << std::endl;
 				Py_DECREF(pReturnValue);
 			}
+			a_pModule = PyImport_ReloadModule(a_pModule);
 			Py_XDECREF(pUpdateFunc);
 		}  
 	}

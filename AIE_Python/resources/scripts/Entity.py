@@ -1,20 +1,33 @@
 import AIE
 import game
 import AI
+import Utilities
+import abc
+import MovementManager
+from IBoid import MoveInterface
 
 #Base Entity
 #   Basic base class for game Entities
 
-class BaseEntity:
+class BaseEntity(MoveInterface):
 
 	def __init__(self, size):
-		self.Position = ( 800, 600 )
+		self.Position = Utilities.Vector([800,600])
 		self.Rotation = 0
-		self.Velocity = (0,0)
+		self.Velocity = Utilities.Vector([0,0])
+		self.Mass = 5
+		self.Steering = MovementManager.MovementManager(self)
 		self.spriteName = "Undefined"
 		self.size = size
 		self.origin = (0.5, 0.5)
 		self.spriteID = -1
+
+		self.posTarget = self.Position
+		self.endGoal = self.Position
+		self.hasPathfinder = False
+		self.pathFound = False
+		self.pathFinished = False
+		self.pathCount = -1
 		
 	def update(self, fDeltaTime ):	
 		AIE.MoveSprite( self.spriteID, self.Position[0], self.Position[1] )
@@ -50,6 +63,15 @@ class BaseEntity:
 		#print "Comparing position " + str(self.Position) + " and endGoal " + str(other)
 		return abs(self.Position[0] - other[0]) <= 0.05 and abs(self.Position[1] - other[1]) <= 0.05
 
+	# IBoid methods
+	def getVelocity(self):
+		return self.Velocity
+	def getMaxVelocity(self):
+		return 3
+	def getPosition(self):
+		return self.Position
+	def getMass(self):
+		return self.Mass
 
 
 #Tank Entity
@@ -59,9 +81,11 @@ class BaseEntity:
 class TankEntity(BaseEntity):
 
 	def __init__(self):
-		self.Position = ( 800, 600 )
+		self.Position = Utilities.Vector([800,600])
 		self.Rotation = 0
-		self.Velocity = (0,0)
+		self.Velocity = Utilities.Vector([0,0])
+		self.Mass = 5
+		self.Steering = MovementManager.MovementManager(self)
 		self.spriteName = "./images/PlayerTanks.png"
 		self.size = (57, 72 )
 		self.origin = (0.5, 0.5)
@@ -76,6 +100,8 @@ class TankEntity(BaseEntity):
 		self.pathFound = False
 		self.pathFinished = False
 		self.pathCount = -1
+
+		#self.maxVel = maxVel
 		
 	def update(self, fDeltaTime, levelGrid ):
 		if not self.hasPathfinder:
@@ -104,8 +130,14 @@ class TankEntity(BaseEntity):
 			if not self.pathFinished and self.isClose(self.posTarget):
 				self.posTarget = self.NextWaypoint(self.Pathfinder.path)
 
-			self.Velocity = (self.posTarget[0] - self.Position[0], self.posTarget[1] - self.Position[1])
-		 	self.Position = (self.Position[0] + self.Velocity[0] * fDeltaTime, self.Position[1] + self.Velocity[1] * fDeltaTime)
+			# self.Velocity = (self.posTarget[0] - self.Position[0], self.posTarget[1] - self.Position[1])
+		 # 	self.Position = (self.Position[0] + self.Velocity[0] * fDeltaTime, self.Position[1] + self.Velocity[1] * fDeltaTime)
+
+		 	self.Steering.seek(Utilities.Vector(self.posTarget))
+		 	self.Steering.update()
+		 	#print "Entity Position: %s   Steering Position: %s" % (self.Position, self.Steering.position)
+		 	self.Position = self.Steering.position
+
 		# elif self.pathFound and self.Equals(self.endGoal):
 		# 	self.ResetPathing()
 			
@@ -144,13 +176,13 @@ class TankEntity(BaseEntity):
 		if self.pathCount != len(path) - 1:
 			self.pathCount += 1
 			print "Next Waypoint Center Coordinates: " + str(game._level.resolveNodeCenter(path[self.pathCount]))
-			return game._level.resolveNodeCenter(path[self.pathCount])
+			return list(game._level.resolveNodeCenter(path[self.pathCount]))
 		else:
 			print "Path Travelled"
 			self.pathFinished = True
 			self.pathCount = -1
 			#return game._level.resolveNodeCenter(path[self.pathCount])
-			return self.endGoal
+			return list(self.endGoal)
 
 	def ResetPathing(self):
 		self.Pathfinder.Clear()
@@ -158,7 +190,17 @@ class TankEntity(BaseEntity):
 		self.pathFinished = False
 		self.pathCount = -1
 
-		
+	# IBoid methods
+	def getVelocity(self):
+		return self.Velocity
+	def getMaxVelocity(self):
+		return 10
+	def getPosition(self):
+		return self.Position
+	def getMass(self):
+		return self.Mass
+
+
 		
 #Turret
 #    This is an Entity Object that has an owner, it is up to you to implement inheritance (BaseEntity->Turret) 
