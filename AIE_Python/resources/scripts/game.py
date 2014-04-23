@@ -71,8 +71,10 @@ def PyUpdate( fDeltaTime ):
 	_level.draw()
 	_entity.draw()
 	DrawGrid()
-	DrawIndices()
-	DrawMouseCoord()
+	#DrawIndices()
+	#DrawMouseCoord()
+	AIE.DrawString(_entity.algoChoice, _level.tileSize['width'] - 50, _level.tileSize['height'] -30, 0, 0, 0, 100)
+
 	return 0
 	
 #PyShutdown

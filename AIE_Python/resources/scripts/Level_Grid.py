@@ -21,8 +21,6 @@ class LevelGrid:
 			self.levelTiles[i] = Tile()
 			self.levelTiles[i].x = self.tileSize['width'] * (i % int(self.levelWidth))
 			self.levelTiles[i].y = self.tileSize['height'] * ( (int(i)/(int(self.levelWidth))))
-			#print "X: %s" % self.levelTiles[i].x
-			#print "Y: %s" % self.levelTiles[i].y
 			self.levelTiles[i].index = i # store the master index of tile...may not end up using this
 	
 	def loadSprites(self):

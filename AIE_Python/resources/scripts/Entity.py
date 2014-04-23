@@ -8,7 +8,6 @@ from IBoid import MoveInterface
 
 #Base Entity
 #   Basic base class for game Entities
-
 class BaseEntity(MoveInterface):
 
 	def __init__(self, size):
@@ -90,61 +89,73 @@ class TankEntity(BaseEntity):
 		self.size = (57, 72 )
 		self.origin = (0.5, 0.5)
 		self.spriteID = AIE.CreateSprite( self.spriteName, self.size[0], self.size[1], self.origin[0], self.origin[1], 71.0/459.0, 1.0 - 72.0/158.0, 128/459.0, 1.0 , 0xff, 0xff, 0xff, 0xff )
-		print "spriteID", self.spriteID
-		#Move Tile to appropriate location
+		#print "spriteID", self.spriteID
 		
 		self.turret = Turret(self)
 		self.posTarget = self.Position
 		self.endGoal = self.Position
+		self.algoChoice = "AStar"
 		self.hasPathfinder = False
 		self.pathFound = False
 		self.pathFinished = False
 		self.pathCount = -1
-
-		#self.maxVel = maxVel
 		
 	def update(self, fDeltaTime, levelGrid ):
 		if not self.hasPathfinder:
-			self.Pathfinder = AI.AStar(levelGrid)
+			if self.algoChoice == "Dijkstra":
+				self.Pathfinder = AI.Dijkstra(levelGrid)
+			elif self.algoChoice == "AStar":
+				self.Pathfinder = AI.AStar(levelGrid)
 			self.hasPathfinder = True
+
 		mouseX, mouseY = AIE.GetMouseLocation()
 		if( AIE.GetMouseButton(1)  ):
 			self.endGoal = mouseX, mouseY
 			print "Reset Pathing"
 			self.ResetPathing()
 			print "endGoal set at: (%s,%s)" % (mouseX, mouseY)
+		# if current position is not the end goal:
 		if not self.Equals(self.endGoal):
-			#print "checked position against end goal."
-			#print "Path Found: " + str(self.pathFound)
+			# if a path has not yet been established:
 			if not self.pathFound:
-				# self.Pathfinder = AI.AStar(levelGrid)
-				# self.hasPathfinder = True
+				# resolve tile index for starting location and target location
 				startNode = levelGrid.resolveGridSquare(self.Position[0], self.Position[1])
 				targetNode = levelGrid.resolveGridSquare(self.endGoal[0], self.endGoal[1])
-				#print "Mouse X: %d, Mouse Y: %d" % (mouseX, mouseY)
-
-				print "Start Node: %s, Goal Node: %s" % (startNode, targetNode)
+				print "Start Node: %s, Target Node: %s" % (startNode, targetNode)
+				# run the pathfinding algorithm
 				self.path = self.Pathfinder.Run(int(startNode), int(targetNode))
 				self.pathFound = True
 				print "Path: " + str(self.path)
+			# if not at the end of the path and close enough to the next node in the path:
 			if not self.pathFinished and self.isClose(self.posTarget):
+				# set a new position target to the next node in the path
 				self.posTarget = self.NextWaypoint(self.Pathfinder.path)
 
-			# self.Velocity = (self.posTarget[0] - self.Position[0], self.posTarget[1] - self.Position[1])
-		 # 	self.Position = (self.Position[0] + self.Velocity[0] * fDeltaTime, self.Position[1] + self.Velocity[1] * fDeltaTime)
+			# apply desired steering behaviors:
 
-		 	self.Steering.seek(Utilities.Vector(self.posTarget))
+		 	mouseX, mouseY = AIE.GetMouseLocation()
+		 	if( AIE.GetMouseButton(0) and AIE.IsKeyDown(70) ): # L Mouse and "F"
+					fleePoint = Utilities.Vector([mouseX, mouseY])
+					self.Steering.flee(fleePoint)			
+			else:
+				self.Steering.seek(Utilities.Vector(self.posTarget))
+			
 		 	self.Steering.update()
 		 	#print "Entity Position: %s   Steering Position: %s" % (self.Position, self.Steering.position)
 		 	self.Position = self.Steering.position
 
-		# elif self.pathFound and self.Equals(self.endGoal):
-		# 	self.ResetPathing()
-			
-
 		AIE.MoveSprite( self.spriteID, self.Position[0], self.Position[1] )
 		self.turret.update(fDeltaTime)
-	
+
+		# toggle between Astar and Dijkstra
+		if (AIE.IsKeyDown(80)): # "P"
+			print "p pressed"
+			if self.algoChoice == "AStar":
+				self.algoChoice = "Dijkstra"
+			elif self.algoChoice == "Dijkstra":
+				self.algoChoice = "AStar"
+			print self.algoChoice
+
 	def draw(self):
 		AIE.DrawSprite( self.spriteID )
 		self.turret.draw()

@@ -16,7 +16,8 @@ PyMethodDef AIE_Functions[] =
 	{"GetMouseButton",			AIE_GetMouseButtonDown,			METH_VARARGS,		"Mouse Button Pressed?"									},
 	{"GetMouseButtonRelease",	AIE_GetMouseButtonReleased,		METH_VARARGS,		"Mouse Button Let Go?"									},
 	{"DrawLine",				AIE_DrawLine,					METH_VARARGS,		"Draws a Line"											},
-	{"DrawString",				AIE_DrawString,					METH_VARARGS,		"Draws a String"											},
+	{"DrawString",				AIE_DrawString,					METH_VARARGS,		"Draws a String"										},
+	{"IsKeyDown",				AIE_IsKeyDown,					METH_VARARGS,		"Is this key down?"										},
 	{NULL, NULL, 0, NULL}
 };
 
@@ -250,8 +251,19 @@ PyObject* AIE_DrawString(PyObject *self, PyObject *args)
 //////////////////////////////////////////////////////////////////////////
 PyObject* AIE_IsKeyDown(PyObject *self, PyObject *args)
 {
-	Py_RETURN_NONE;
+	int iKey;
+	if (!PyArg_ParseTuple( args, "i", &iKey ) ) 
+	{
+		ParsePyTupleError( __func__, __LINE__ );
+		return nullptr;
+	}
+	bool bIsDown = IsKeyDown(iKey);
+	if (bIsDown)
+		Py_RETURN_TRUE;
+	else
+		Py_RETURN_FALSE;
 }
+
 PyObject* AIE_GetMouseLocation(PyObject *self, PyObject *args)
 {
 	int iMouseX, iMouseY;
